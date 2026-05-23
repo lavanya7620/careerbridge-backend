@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Application Update</h2>
+<p>Hi {{ name }}, your application status has been updated.</p>
+<span class="badge {{ badge_color }}">{{ status_label }}</span>
+<div class="info-row"><span class="label">Job Title</span><span class="value">{{ job_title }}</span></div>
+<div class="info-row"><span class="label">Company</span><span class="value">{{ company_name }}</span></div>
+<div class="info-row"><span class="label">Your Match Score</span><span class="value">{{ match_score }}%</span></div>
+<div class="info-row"><span class="label">Updated On</span><span class="value">{{ updated_on }}</span></div>
+<div class="score-bar">
+{% if match_score >= 75 %}
+<div class="score-fill" style="width:{{ match_score }}%;background:#22c55e"></div>
+{% elif match_score >= 55 %}
+<div class="score-fill" style="width:{{ match_score }}%;background:#eab308"></div>
+{% else %}
+<div class="score-fill" style="width:{{ match_score }}%;background:#ef4444"></div>
+{% endif %}
+</div>
+{% if status == 'shortlisted' %}
+<div class="tip">🎉 Congratulations! You have been shortlisted. The HR team will contact you soon for next steps.</div>
+{% elif status == 'interview' %}
+<div class="tip">📅 You have been selected for an interview. Check your dashboard for schedule details.</div>
+{% elif status == 'offered' %}
+<div class="tip">🏆 Outstanding! You have received a job offer. Login to view the details and respond.</div>
+{% elif status == 'rejected' %}
+<div class="tip">Keep going! Use the Skill Gap feature to identify areas for improvement and apply to more matching roles.</div>
+{% endif %}
+<div class="divider"></div>
+<a href="{{ dashboard_url }}" class="btn">View Application</a>
+{% endblock %}

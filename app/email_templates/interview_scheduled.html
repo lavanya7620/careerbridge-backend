@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Interview Scheduled 📅</h2>
+<p>Hi {{ name }}, your interview has been scheduled. Please review the details below.</p>
+<span class="badge blue">Interview Confirmed</span>
+<div class="info-row"><span class="label">Job Title</span><span class="value">{{ job_title }}</span></div>
+<div class="info-row"><span class="label">Company</span><span class="value">{{ company_name }}</span></div>
+<div class="info-row"><span class="label">Date</span><span class="value">{{ interview_date }}</span></div>
+<div class="info-row"><span class="label">Time</span><span class="value">{{ interview_time }}</span></div>
+<div class="info-row"><span class="label">Mode</span><span class="value">{{ interview_mode }}</span></div>
+{% if meeting_link %}
+<div class="info-row"><span class="label">Meeting Link</span><span class="value"><a href="{{ meeting_link }}" style="color:#3b82f6">Join Meeting</a></span></div>
+{% endif %}
+{% if notes %}
+<div class="divider"></div>
+<p style="font-size:14px;color:#475569"><strong>Note from HR:</strong> {{ notes }}</p>
+{% endif %}
+<div class="tip">💡 Prepare by reviewing common questions in the Interview Prep section of your dashboard.</div>
+<div class="divider"></div>
+<a href="{{ dashboard_url }}" class="btn">View Dashboard →</a>
+{% endblock %}

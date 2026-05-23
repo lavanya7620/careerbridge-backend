@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>New Job Match Found! 🎯</h2>
+<p>Hi {{ name }}, we found {{ job_count }} new job{% if job_count > 1 %}s{% endif %} matching your profile above your alert threshold.</p>
+<div class="divider"></div>
+{% for job in jobs %}
+<div style="background:#f8fafc;border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid #e2e8f0">
+  <p style="font-size:16px;font-weight:600;color:#0f172a;margin-bottom:4px">{{ job.title }}</p>
+  <p style="font-size:13px;color:#64748b;margin-bottom:10px">
+    {{ job.company_name }}
+    {% if job.location %} · {{ job.location }}{% endif %}
+    {% if job.salary %} · {{ job.salary }}{% endif %}
+  </p>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    {% if job.match_score >= 75 %}
+    <span style="font-size:22px;font-weight:700;color:#16a34a">{{ job.match_score }}%</span>
+    {% elif job.match_score >= 55 %}
+    <span style="font-size:22px;font-weight:700;color:#ca8a04">{{ job.match_score }}%</span>
+    {% else %}
+    <span style="font-size:22px;font-weight:700;color:#dc2626">{{ job.match_score }}%</span>
+    {% endif %}
+    <span style="font-size:13px;color:#64748b">AI match score</span>
+  </div>
+  <div class="skills">
+    {% for s in job.matched_skills[:4] %}<span class="skill matched">✓ {{ s }}</span>{% endfor %}
+    {% for s in job.missing_skills[:3] %}<span class="skill missing">✗ {{ s }}</span>{% endfor %}
+  </div>
+</div>
+{% endfor %}
+<a href="{{ jobs_url }}" class="btn">Browse All Matches</a>
+{% endblock %}

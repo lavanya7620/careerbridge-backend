@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Weekly Career Digest 📊</h2>
+<p>Hi {{ name }}, here's your career activity summary for this week.</p>
+<div class="divider"></div>
+<p style="font-weight:600;color:#0f172a;margin-bottom:12px">This week's stats</p>
+<div class="info-row"><span class="label">New job matches</span><span class="value">{{ new_matches }}</span></div>
+<div class="info-row"><span class="label">Applications sent</span><span class="value">{{ applications }}</span></div>
+<div class="info-row"><span class="label">Profile views</span><span class="value">{{ profile_views }}</span></div>
+<div class="info-row"><span class="label">Current resume score</span><span class="value">{{ resume_score }}%</span></div>
+<div class="divider"></div>
+{% if top_missing_skills %}
+<p style="font-weight:600;color:#0f172a;margin-bottom:12px">Top skills to learn this week</p>
+<div class="skills">
+  {% for s in top_missing_skills %}<span class="skill missing">{{ s }}</span>{% endfor %}
+</div>
+<div class="divider"></div>
+{% endif %}
+{% if recommended_jobs %}
+<p style="font-weight:600;color:#0f172a;margin-bottom:12px">Top recommended jobs</p>
+{% for job in recommended_jobs[:3] %}
+<div class="info-row">
+  <span class="label">{{ job.title }} at {{ job.company_name }}</span>
+  <span class="value">{{ job.match_score }}%</span>
+</div>
+{% endfor %}
+<div class="divider"></div>
+{% endif %}
+<a href="{{ dashboard_url }}" class="btn">Go to Dashboard →</a>
+{% endblock %}

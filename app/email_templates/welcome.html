@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome to CareerBridge AI, {{ name }}! 🎉</h2>
+<p>Your account has been created successfully. You're now part of an AI-powered career ecosystem that helps you find the right jobs and grow your career.</p>
+<div class="divider"></div>
+<p style="font-weight:600;color:#0f172a;margin-bottom:12px">Get started in 3 steps:</p>
+<div class="info-row"><span class="label">Step 1</span><span class="value">Complete your profile</span></div>
+<div class="info-row"><span class="label">Step 2</span><span class="value">Upload your resume for AI analysis</span></div>
+<div class="info-row"><span class="label">Step 3</span><span class="value">Browse jobs and apply with AI matching</span></div>
+<div class="divider"></div>
+<a href="{{ login_url }}" class="btn">Go to Dashboard →</a>
+{% endblock %}
