@@ -1,7 +1,12 @@
 from sentence_transformers import SentenceTransformer, util
-import torch
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+_model = None
+
+def get_model():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer('all-MiniLM-L6-v2')
+    return _model
 
 CAREER_ROLES = [
     {
@@ -35,7 +40,7 @@ CAREER_ROLES = [
     {
         "title": "Frontend Developer",
         "description": "Build user interfaces with modern web technologies",
-        "key_skills": ["React", "JavaScript", "TypeScript", "Tailwind", "HTML", "CSS"],
+        "key_skills": ["React", "JavaScript", "TypeScript", "Tailwind", "HTML"],
         "avg_salary": "₹4-10 LPA",
         "growth": "High"
     },
@@ -80,8 +85,8 @@ def get_career_suggestions(candidate_skills: list, resume_text: str = "") -> lis
     if not candidate_skills and not resume_text:
         return []
 
-    # Build candidate profile text
-    profile_text = f"Skills: {', '.join(candidate_skills)}. {resume_text[:500]}"
+    model = get_model()
+    profile_text = f"Skills: {', '.join(candidate_skills)}. {resume_text[:300]}"
     profile_embedding = model.encode(profile_text, convert_to_tensor=True)
 
     results = []
@@ -90,12 +95,10 @@ def get_career_suggestions(candidate_skills: list, resume_text: str = "") -> lis
         role_embedding = model.encode(role_text, convert_to_tensor=True)
         semantic_score = float(util.cos_sim(profile_embedding, role_embedding)[0][0])
 
-        # Skill overlap score
         candidate_lower = [s.lower() for s in candidate_skills]
         matched = [s for s in role["key_skills"] if s.lower() in candidate_lower]
         missing = [s for s in role["key_skills"] if s.lower() not in candidate_lower]
         skill_score = len(matched) / len(role["key_skills"])
-
         final_score = round((semantic_score * 0.5 + skill_score * 0.5) * 100, 1)
 
         results.append({
